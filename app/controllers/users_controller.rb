@@ -1,4 +1,8 @@
 class UsersController < ApplicationController
+  def new_registration_form
+
+    render({ :template => "users/signup_form.html.erb" })
+   end
   def index
     @users = User.all.order({ :username => :asc })
 
@@ -17,9 +21,13 @@ class UsersController < ApplicationController
 
     user.username = params.fetch("input_username")
 
-    user.save
+     save_status = user.save
 
-    redirect_to("/users/#{user.username}")
+     if save_status == true
+     redirect_to("/users/#{user.username}")
+     else
+      redirect_to("/user_sign_up")
+   end
   end
 
   def update
@@ -41,6 +49,8 @@ class UsersController < ApplicationController
     user.destroy
 
     redirect_to("/users")
+    end
+
   end
 
-end
+    
